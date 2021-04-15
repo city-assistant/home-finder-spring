@@ -27,7 +27,7 @@ public class LoginController {
         	Users loginUser = userService.findByUserId(user.getUserId());
         	if(loginUser != null && loginUser.getUserPw().equals(user.getUserPw())){
         		String token = jwtService.create("userId", loginUser.getUserId(), "user");
-        		response = "{\"hfToken\":\"";
+        		response = token;
         		        	}
         } catch(Exception e) {
         	throw new Exception();
