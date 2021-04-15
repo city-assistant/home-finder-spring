@@ -1,6 +1,5 @@
 package hf.controller;
 
-import org.hibernate.engine.jdbc.connections.internal.UserSuppliedConnectionProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import hf.domain.Users;
 import hf.service.JWTService;
 import hf.service.UserService;
+
+import java.util.HashMap;
 
 @CrossOrigin
 @RestController
@@ -21,13 +22,13 @@ public class LoginController {
 	private JWTService jwtService;
 	
 	@PostMapping(path = "/loginUser")
-    public String loginMember(@RequestBody Users user) throws Exception {
-		String response = null;
+    public HashMap loginMember(@RequestBody Users user) throws Exception {
+		HashMap response = new HashMap<String, String>();
         try {
         	Users loginUser = userService.findByUserId(user.getUserId());
         	if(loginUser != null && loginUser.getUserPw().equals(user.getUserPw())){
         		String token = jwtService.create("userId", loginUser.getUserId(), "user");
-        		response = token;
+        		response.put("userToken", token);
         		        	}
         } catch(Exception e) {
         	throw new Exception();
