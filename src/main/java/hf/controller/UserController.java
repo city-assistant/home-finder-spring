@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import hf.domain.Users;
-import hf.serivce.UserService;
+import hf.service.UserService;
 
 public class UserController {
 

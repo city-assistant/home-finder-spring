@@ -1,16 +1,16 @@
-package hf.serivce;
+package hf.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Service;
 
 import hf.dao.UserRepository;
 import hf.domain.Users;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepository userRepo;
@@ -46,8 +46,17 @@ public class UserServiceImpl {
 		userRepo.save(findUser);
 	}
 	
+	public void updateUserToken(Users user) {
+		Users finduser = userRepo.findByUserId(user.getUserId());
+		userRepo.save(finduser);
+	}
 	//Delete
 	public void deleteUser(Users user) {
 		userRepo.deleteById(user.getUserId());
+	}
+
+	@Override
+	public List<Users> getUserList(Users user) {
+		return (List<Users>) userRepo.findAll();
 	}
 }

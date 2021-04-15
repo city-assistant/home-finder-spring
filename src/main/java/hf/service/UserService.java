@@ -1,4 +1,4 @@
-package hf.serivce;
+package hf.service;
 
 import java.util.List;
 
@@ -18,5 +18,4 @@ public interface UserService {
 
 	void updateUser(Users user);
 
-	void deleteUser(Users user);
 }
