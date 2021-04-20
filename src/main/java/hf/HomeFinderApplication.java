@@ -11,7 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScans({@ComponentScan("hf.controller"),
-				@ComponentScan("hf.logger")})
+				@ComponentScan("hf.logger"),
+				@ComponentScan(basePackages = { "com.baeldung.spring.data.es.service" })})
 @EnableJpaRepositories(basePackages="hf.dao")
 @EntityScan("hf.domain")
 public class HomeFinderApplication {
