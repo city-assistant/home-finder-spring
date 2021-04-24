@@ -2,6 +2,7 @@ package hf.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,10 +10,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-@RestController
 @Slf4j
+@CrossOrigin
+@RestController
 public class APIController {
-    @PostMapping("/postTest")
+    @PostMapping("/officetelPrefixSearch")
     public Object postForEntity(@RequestBody Map contents){
         RestTemplate restTemplate = new RestTemplate();
         String queryInjector = "";
