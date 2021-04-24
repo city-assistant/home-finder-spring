@@ -31,7 +31,7 @@ public class UserInterestServiceImpl implements UserInterestService{
 	}
 
 	@Override
-	public void deleteUserInterest(UserInterest userInterest) {
-		userInterestRepos.delete(userInterest);
+	public void deleteUserInterestsByUserIdAndCity(Users userId, String city) {
+		userInterestRepos.deleteUserInterestsByUserIdAndCity(userId, city);
 	}
 }

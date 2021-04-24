@@ -1,22 +1,16 @@
 package hf.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hf.domain.UserInterest;
 import hf.domain.Users;
 import hf.service.JWTDecoderService;
 import hf.service.JWTService;
 import hf.service.UserInterestService;
 import hf.service.UserService;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.apache.catalina.User;
-import org.apache.commons.codec.binary.Base64;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -53,28 +47,31 @@ public class UserInterestController {
 	}
 
 	@PostMapping("/insertUserInterest")
-	public String insertUserInterest(@RequestBody UserInterest userInterest) throws Exception {
+	public String insertUserInterest(@RequestBody HashMap body) throws Exception {
+		System.out.println(body);
 		String response = null;
-		if (userInterest.getUserId() == null) {
+		String decodedUserId = jwtDecoderService.decode(body);
+		Users userId = userService.findByUserId(decodedUserId);
+		if (userId.getUserId() == null) {
 			return "redirect:login";
 		} else {
-			userInterestService.insertUserInterest(userInterest);
+			UserInterest insertUserInterest = UserInterest.builder().userId(userId).city(body.get("city").toString()).build();
+			userInterestService.insertUserInterest(insertUserInterest);
 			response = "save complete";
 		}
 		return response;
 	}
 
 	@PostMapping("/deleteUserInterest")
-	public String deleteUserInterest(@RequestBody HashMap body) throws Exception {
+	public String deleteUserInterestsByUserIdAndCity(@RequestBody HashMap body) throws Exception {
 		String decodedUserId = jwtDecoderService.decode(body);
 		Users userId = userService.findByUserId(decodedUserId);
-		UserInterest userInterest = UserInterest.builder().userId(userId).city(body.get("city").toString()).build();
 		String response = null;
 
-		if (userInterest.getUserId() == null) {
+		if (userId.getUserId() == null) {
 			return "redirect:login";
 		} else {
-			userInterestService.deleteUserInterest(userInterest);
+			userInterestService.deleteUserInterestsByUserIdAndCity(userId, body.get("city").toString());
 			response = "delete complete";
 		}
 		return response;

@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Entity
 public class UserInterest {
 	private @Id @GeneratedValue Long id;
-	private @ManyToOne @JoinColumn	Users userId;
+	private @ManyToOne @JoinColumn(name="user_id")	Users userId;
 	private @Field(name="city") String city;
 	private @Field(name="address") String address;
 	private @Field(name="note") String note;
