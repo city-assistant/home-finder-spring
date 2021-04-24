@@ -1,8 +1,7 @@
-package hf.dao;
+package hf.domain;
 
 
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
@@ -11,15 +10,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-@Document(indexName = "interest")
+@Entity
 public class UserInterest {
-	@Id
-	private  String userId;
+	private @Id @GeneratedValue Long id;
+	private @ManyToOne @JoinColumn	Users userId;
 	private @Field(name="city") String city;
 	private @Field(name="address") String address;
 	private @Field(name="note") String note;
