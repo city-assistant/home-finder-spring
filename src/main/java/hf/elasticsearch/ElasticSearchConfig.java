@@ -12,16 +12,16 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "com.baeldung.spring.data.es.repository")
 
-public class Config {
+public class ElasticSearchConfig {
 	@Bean
 	public RestHighLevelClient client() {
-		ClientConfiguration clientConfiguration 
-		= ClientConfiguration.builder() .connectedTo("localhost:9200").build();
-		return RestClients.create(clientConfiguration).rest(); 
-		} 
-	@Bean 
+		ClientConfiguration clientConfiguration = ClientConfiguration.builder().connectedTo("localhost:9200").build();
+		return RestClients.create(clientConfiguration).rest();
+	}
+
+	@Bean
 	public ElasticsearchOperations elasticsearchTemplate() {
-		return new ElasticsearchRestTemplate(client()); 
-		}
+		return new ElasticsearchRestTemplate(client());
+	}
 
 }
