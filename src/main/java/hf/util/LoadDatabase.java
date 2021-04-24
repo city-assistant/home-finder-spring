@@ -25,6 +25,7 @@ public class LoadDatabase {
 			log.info("Preloading " + userRepo.save(new Users("user1","11")));
 			log.info("Preloading " + userInterestRepo.save(UserInterest.builder().userId(Users.builder().userId("user1").build()).city("서울특별시 강서구 마곡동").build()));
 			log.info("Preloading " + userInterestRepo.save(UserInterest.builder().userId(Users.builder().userId("user1").build()).city("서울특별시 관악구 봉천동").build()));
+			log.info("Preloading " + userInterestRepo.save(UserInterest.builder().userId(Users.builder().userId("user1").build()).city("서울특별시 종로구 숭인동").build()));
 		};
 	}
 }
