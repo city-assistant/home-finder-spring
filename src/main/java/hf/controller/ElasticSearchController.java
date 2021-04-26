@@ -1,17 +1,22 @@
 package hf.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Aspect;
-import org.json.JSONObject;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.Map;
 
-@Slf4j
-@Aspect
+import org.aspectj.lang.annotation.Aspect;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
 @CrossOrigin
 @RestController
+@Aspect
 public class ElasticSearchController {
 
     @PostMapping("/prefixSearch")
