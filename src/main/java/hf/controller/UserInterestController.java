@@ -6,6 +6,7 @@ import hf.service.JWTDecoderService;
 import hf.service.JWTService;
 import hf.service.UserInterestService;
 import hf.service.UserService;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@Aspect
 public class UserInterestController {
 
 	@Autowired

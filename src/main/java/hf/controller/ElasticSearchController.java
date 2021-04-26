@@ -1,6 +1,7 @@
 package hf.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.Aspect;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 @Slf4j
 @CrossOrigin
+@Aspect
 @RestController
 public class ElasticSearchController {
 

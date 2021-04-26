@@ -1,5 +1,6 @@
 package hf.controller;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import hf.domain.Users;
 import hf.service.UserService;
 @CrossOrigin
 @RestController
+@Aspect
 public class UserController {
 
 	@Autowired
