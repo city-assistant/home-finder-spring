@@ -1,3 +1,6 @@
+package hf.logger;
+
+
 import hf.logger.ReadableRequestWrapper;
 
 import javax.servlet.*;
