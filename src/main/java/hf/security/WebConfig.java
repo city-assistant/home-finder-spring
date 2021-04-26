@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     private static final String[] EXCLUDE_PATHS = {
-    	"/stringTest","/loginUser","/getChartData","/getAllCities", "/searchCities", "/getTranslatedDataWithLocation"
+    	"/stringTest","/loginUser","/getChartData","/getAllCities", "/searchCities", "/getTranslatedDataWithLocation", "/searchQuery"
     };
  
     @Autowired

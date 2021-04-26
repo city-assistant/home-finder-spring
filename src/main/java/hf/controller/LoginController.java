@@ -1,5 +1,6 @@
 package hf.controller;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import hf.service.JWTService;
 import hf.service.UserService;
 
 import java.util.HashMap;
-
+@Aspect
 @CrossOrigin
 @RestController
 public class LoginController {

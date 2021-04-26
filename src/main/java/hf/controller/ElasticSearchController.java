@@ -9,37 +9,37 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Slf4j
-@CrossOrigin
 @Aspect
+@CrossOrigin
 @RestController
 public class ElasticSearchController {
 
-    @PostMapping("/officetelPrefixSearch")
-    public Object officetelPrefixSearch(@RequestBody Map contents){
+    @PostMapping("/prefixSearch")
+    public Object prefixSearch(@RequestBody Map contents){
         RestTemplate restTemplate = new RestTemplate();
         String query = "{\"size\":0,\"query\":{\"bool\":{\"must\":[{\"prefix\":{\"시군구\":\"" +
                 (String) contents.get("city") +
                 "\"}}]}},\"aggs\":{\"result\":{\"date_histogram\":{\"field\":\"@timestamp\",\"format\":\"yyyy-MM\",\"calendar_interval\":\"month\"},\"aggs\":{\"보증금\":{\"avg\":{\"field\":\"deposit\"}},\"면적\":{\"avg\":{\"field\":\"area\"}},\"translated\":{\"bucket_script\":{\"buckets_path\":{\"v1\":\"면적\",\"v2\":\"월세\",\"v3\":\"보증금\"},\"script\":\"(params.v2 + (params.v3 * 0.05 /12)) / params.v1 * 33\"}},\"월세\":{\"avg\":{\"field\":\"rent\"}}}}}}\n";
         JSONObject queryObject = new JSONObject(query);
-        Object response = restTemplate.postForObject("http://localhost:9200/officetel-rent-data/_search", queryObject.toMap(), Map.class);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
         return response;
     }
 
-    @GetMapping("/getAllCities")
-    public Object getAllCities(){
+    @PostMapping("/getAllCities")
+    public Object getAllCities(@RequestBody Map contents){
         RestTemplate restTemplate = new RestTemplate();
         String query = "{\"size\":0,\"aggs\":{\"group_by_state\":{\"terms\":{\"size\":10000000,\"field\":\"시군구\"}}}}";
         JSONObject queryObject = new JSONObject(query);
-        Object response = restTemplate.postForObject("http://localhost:9200/officetel-rent-data/_search", queryObject.toMap(), Map.class);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
         return response;
     }
 
-    @GetMapping("/getTranslatedDataWithLocation")
-    public Object getTranslatedDataWithLocation(){
+    @PostMapping("/getTranslatedDataWithLocation")
+    public Object getTranslatedDataWithLocation(@RequestBody Map contents){
         RestTemplate restTemplate = new RestTemplate();
         String query = "{\"size\":0,\"query\":{\"bool\":{\"must\":[{\"prefix\":{\"시군구\":\"서울\"}},{\"match\":{\"전월세구분\":\"월세\"}}],\"filter\":[{\"range\":{\"yyyymmdd\":{\"gte\":20200000}}}]}},\"aggs\":{\"group_by_state\":{\"terms\":{\"size\":10000000,\"field\":\"시군구\"},\"aggs\":{\"면적\":{\"avg\":{\"field\":\"area\"}},\"보증금\":{\"avg\":{\"field\":\"deposit\"}},\"월세\":{\"avg\":{\"field\":\"rent\"}},\"location\":{\"geo_bounds\":{\"field\":\"location\"}},\"translated\":{\"bucket_script\":{\"buckets_path\":{\"v1\":\"면적\",\"v2\":\"월세\",\"v3\":\"보증금\"},\"script\":\"(params.v2 + params.v3 * 0.06 /12) / params.v1 * 33\"}}}}}}";
         JSONObject queryObject = new JSONObject(query);
-        Object response = restTemplate.postForObject("http://localhost:9200/officetel-rent-data/_search", queryObject.toMap(), Map.class);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
         return response;
     }
 
@@ -50,7 +50,20 @@ public class ElasticSearchController {
                 (String) contents.get("city")
                 +"\"}}}]}},\"aggs\":{\"result\":{\"date_histogram\":{\"field\":\"@timestamp\",\"calendar_interval\":\"year\",\"format\":\"yyyy\"},\"aggs\":{\"면적\":{\"avg\":{\"field\":\"area\"}},\"보증금\":{\"avg\":{\"field\":\"deposit\"}},\"월세\":{\"avg\":{\"field\":\"rent\"}},\"10평당 월세\":{\"bucket_script\":{\"buckets_path\":{\"v1\":\"면적\",\"v2\":\"월세\"},\"script\":\"params.v2 / params.v1 * 33\"}},\"10평당 보증금\":{\"bucket_script\":{\"buckets_path\":{\"v1\":\"면적\",\"v2\":\"보증금\"},\"script\":\"params.v2 / params.v1 * 33\"}}}}}}";
         JSONObject queryObject = new JSONObject(query);
-        Object response = restTemplate.postForObject("http://localhost:9200/officetel-rent-data/_search", queryObject.toMap(), Map.class);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
+        return response;
+    }
+
+    @PostMapping("/searchQuery")
+    public Object searchQuery(@RequestBody Map contents){
+        RestTemplate restTemplate = new RestTemplate();
+        String query = "{\"size\":1000,\"query\":{\"bool\":{\"must\":[{\"prefix\":{\"시군구\":\""+
+                contents.get("city")
+                +"\"}},{\"match\":{\"전월세구분\":\""+
+                contents.get("leaseType")
+                +"\"}}]}}}\n";
+        JSONObject queryObject = new JSONObject(query);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
         return response;
     }
 
@@ -73,14 +86,7 @@ public class ElasticSearchController {
                 contents.get("translatedMax")
                 +"\"}}}}}}\n";
         JSONObject queryObject = new JSONObject(query);
-        Object response = restTemplate.postForObject("http://localhost:9200/officetel-rent-data/_search", queryObject.toMap(), Map.class);
+        Object response = restTemplate.postForObject("http://localhost:9200/" + (String) contents.get("homeType") + "-rent-data/_search", queryObject.toMap(), Map.class);
         return response;
     }
-
-    @PostMapping("/stringTest")
-    public Object stringTest(@RequestBody String contents){
-        System.out.println(contents);
-        return contents;
-    }
-
 }
