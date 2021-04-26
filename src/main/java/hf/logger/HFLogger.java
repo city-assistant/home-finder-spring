@@ -19,15 +19,13 @@ public class HFLogger {
 	
 	@Around("PostMapping()")
 	public Object Around(ProceedingJoinPoint joinPoint) throws Throwable {
-		log.info("====AspectJ TEST  : Around Logging Start====");
+		log.info("Around Logging Start====");
 		try {
 			Object result = joinPoint.proceed();
-			log.info("====AspectJ RESULT : " + result);
-			log.info("====AspectJ TEST  : Around Logging END====");
+			log.info("RESULT Given");
 			return result;
 		} catch (Exception e) {
-			log.error("====AspectJ Around Exception====");
-			log.error(e.toString());
+			log.error("Around Exception====" + e);
 			return null;
 		}
 	}
